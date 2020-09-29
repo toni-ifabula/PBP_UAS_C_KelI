@@ -65,6 +65,7 @@ public class Event {
     public static void loadImage(ImageView imageView, String imgURL) {
         Glide.with(imageView)
                 .load(imgURL)
+//                .apply(new RequestOptions().override(600, 200))
                 .into(imageView);
     }
 }

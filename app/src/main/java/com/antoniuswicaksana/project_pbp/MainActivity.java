@@ -17,7 +17,7 @@ import com.antoniuswicaksana.project_pbp.databinding.ActivityMainBinding;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
+    
     private ArrayList<Event> ListEvent;
     private RecyclerView recyclerView;
     private RecyclerViewAdapter adapter;
