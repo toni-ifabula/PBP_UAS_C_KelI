@@ -1,4 +1,4 @@
-package com.antoniuswicaksana.project_paw;
+package com.antoniuswicaksana.project_pbp;
 
 import org.junit.Test;
 

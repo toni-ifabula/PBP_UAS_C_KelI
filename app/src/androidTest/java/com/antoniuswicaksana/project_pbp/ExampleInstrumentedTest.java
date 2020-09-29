@@ -1,4 +1,4 @@
-package com.antoniuswicaksana.project_paw;
+package com.antoniuswicaksana.project_pbp;
 
 import android.content.Context;
 
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
     public void useAppContext() {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-        assertEquals("com.antoniuswicaksana.project_paw", appContext.getPackageName());
+        assertEquals("com.antoniuswicaksana.project_pbp", appContext.getPackageName());
     }
 }

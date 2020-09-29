@@ -1,6 +1,4 @@
-package com.antoniuswicaksana.project_paw;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.antoniuswicaksana.project_pbp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,12 +6,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class ProfileActivity extends AppCompatActivity {
+import androidx.appcompat.app.AppCompatActivity;
+
+public class ChangeProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_update_profile);
     }
 
     @Override
