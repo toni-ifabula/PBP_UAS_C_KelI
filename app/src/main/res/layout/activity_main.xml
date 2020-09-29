@@ -9,21 +9,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <SearchView
-            android:id="@+id/input_search"
-            android:layout_width="350dp"
-            android:layout_height="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_event"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginTop="10dp"
-            android:layout_gravity="center"
-            android:iconifiedByDefault="false"
-            android:queryHint="Search By Name" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_event"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                tools:listitem="@layout/adapter_recycler_view"/>
+            tools:listitem="@layout/adapter_recycler_view"/>
 
     </LinearLayout>
 
