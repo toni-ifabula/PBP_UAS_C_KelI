@@ -33,85 +33,102 @@
             android:layout_gravity="center"
             android:text="Ganti Foto" />
 
+        <View
+            android:layout_width="400dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#b0b0b0"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
             android:orientation="horizontal">
 
             <TextView
                 style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                android:layout_width="70dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
-                android:text="Nama" />
+                android:text="Nama             : " />
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="320dp"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_nama"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="asdfghjkl" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:id="@+id/txtNama"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text=" -"/>
         </LinearLayout>
 
+        <View
+            android:layout_width="400dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#b0b0b0"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
             android:orientation="horizontal">
 
             <TextView
                 style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                android:layout_width="70dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
-                android:text="Alamat" />
+                android:text="Alamat           : " />
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="320dp"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_alamat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="asdfghjkl" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:id="@+id/txtAlamat"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text=" -"/>
         </LinearLayout>
 
+        <View
+            android:layout_width="400dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#b0b0b0"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
+
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="100dp"
             android:orientation="horizontal">
 
             <TextView
                 style="@style/TextAppearance.MaterialComponents.Subtitle1"
-                android:layout_width="70dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="No. Telp" />
+                android:text="No. Telp         :" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="320dp"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/txt_no_telp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="asdfghjkl" />
-            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:id="@+id/txtNoTelp"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text=" -"/>
         </LinearLayout>
+
+        <View
+            android:layout_width="400dp"
+            android:layout_height="2dp"
+            android:layout_gravity="center"
+            android:background="#b0b0b0"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"/>
 
         <Button
             android:id="@+id/btn_ganti_profil"

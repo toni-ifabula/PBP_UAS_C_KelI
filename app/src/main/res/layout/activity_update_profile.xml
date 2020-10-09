@@ -39,7 +39,7 @@
                 android:id="@+id/txt_nama"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="asdfghjkl" />
+                android:text="-" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
@@ -65,7 +65,7 @@
                 android:id="@+id/txt_alamat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="asdfghjkl" />
+                android:text="-" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
@@ -90,7 +90,7 @@
                 android:id="@+id/txt_no_telp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="asdfghjkl" />
+                android:text="-" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 
