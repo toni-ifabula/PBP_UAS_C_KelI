@@ -91,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, MainActivity.class));
         } else if (item.getItemId() == R.id.menu_profile) {
             startActivity(new Intent(this, ProfileActivity.class));
+        } else if (item.getItemId() == R.id.menu_map) {
+            startActivity(new Intent(this, MapActivity.class));
         }
 
         return true;

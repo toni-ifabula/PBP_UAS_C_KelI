@@ -87,6 +87,9 @@ public class ChangeProfileActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.menu_profile) {
             startActivity(new Intent(this, ProfileActivity.class));
             finish();
+        } else if (item.getItemId() == R.id.menu_map) {
+            startActivity(new Intent(this, MapActivity.class));
+            finish();
         }
 
         return true;

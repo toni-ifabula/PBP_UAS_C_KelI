@@ -11,4 +11,9 @@
         android:title="Profile"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/menu_map"
+        android:title="Lokasi Kantor"
+        app:showAsAction="never" />
+
 </menu>
