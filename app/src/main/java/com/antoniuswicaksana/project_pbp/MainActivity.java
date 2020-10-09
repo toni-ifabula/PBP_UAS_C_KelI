@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        String mag = "Firebase Cloud Messaging Successful";
+                        String mag = "Firebase Cloud Messaging Connected";
                         if (!task.isSuccessful()) {
                             mag = "Failed";
                         }
