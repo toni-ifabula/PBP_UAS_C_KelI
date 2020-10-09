@@ -36,7 +36,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_nama"
+                android:id="@+id/inputNama"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="-" />
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_alamat"
+                android:id="@+id/inputAlamat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="-" />
@@ -87,9 +87,10 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/txt_no_telp"
+                android:id="@+id/inputNoTelp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:text="-" />
         </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
