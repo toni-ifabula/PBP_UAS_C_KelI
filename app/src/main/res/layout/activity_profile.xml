@@ -17,7 +17,7 @@
         android:textStyle="bold" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/image_view"
         android:layout_width="match_parent"
         android:layout_height="95dp"
         android:src="@drawable/ic_baseline_person_24" />
