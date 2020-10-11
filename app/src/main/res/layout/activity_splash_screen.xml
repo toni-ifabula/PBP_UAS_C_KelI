@@ -16,6 +16,6 @@
         android:layout_centerVertical="true"
         android:backgroundTint="#FFFFFF"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_splash_screen"/>
+        android:src="@drawable/ic_logo"/>
 
 </RelativeLayout>

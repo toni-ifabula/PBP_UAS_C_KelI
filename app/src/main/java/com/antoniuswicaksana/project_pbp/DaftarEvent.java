@@ -20,7 +20,7 @@ public class DaftarEvent {
             "100", "https://thenewtimespress.com/wp-content/uploads/2015/02/Big-wedding-1-400x261.jpg");
 
     public static final Event WEDDING_B = new Event("Wedding Paket B", 70000000,
-            "70", "https://lh3.googleusercontent.com/proxy/Eedauj8VEPw7GdXojfiV70VfXy-a8YIIst2akZbK3fcTiHdHwVTlmYkYwYv8Z2fwU_O2CRr-9ta4szhO6Ahq_xoGe9RQAdSplhF0wmPHU1UBMkcnTJWTYcuadMTklh4txqesCHA");
+            "70", "https://cdn0.weddingwire.com/img_g/editorial-images-2019/9-september/kim/t30_big-wedding-party-hyde-park-photography.jpg");
 
     public static final Event WEDDING_C = new Event("Wedding Paket C", 50000000,
             "50", "https://www.villabaroncino.com/wp-content/uploads/2016/10/Jen-Brad_1083-R-1.jpg");
