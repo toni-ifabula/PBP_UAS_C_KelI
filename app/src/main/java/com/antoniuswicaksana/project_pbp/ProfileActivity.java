@@ -152,7 +152,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
-        Toast.makeText(this, "masuk 4", Toast.LENGTH_SHORT).show();
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == CAMERA_REQUEST_CODE){
             if(resultCode == Activity.RESULT_OK){
