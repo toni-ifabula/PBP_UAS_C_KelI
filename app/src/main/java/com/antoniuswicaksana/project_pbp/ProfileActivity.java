@@ -11,9 +11,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -27,15 +24,28 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import com.antoniuswicaksana.project_pbp.model.User;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.scottyab.aescrypt.AESCrypt;
+
 import java.io.File;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    Button btn_ganti_profil, btnPhoto;
-    TextView txtNama, txtAlamat, txtNoTelp;
+    Button btn_ganti_profil, btnPhoto, btnResend;
+    TextView txtEmail, txtPassword, txtNama, txtAlamat, txtNoTelp;
     ImageView imageView;
     ChangeProfileActivity changeProfileClass;
     private SharedPreferences preferences;
@@ -46,7 +56,14 @@ public class ProfileActivity extends AppCompatActivity {
     public static final int CAMERA_PERM_CODE = 101;
     public static final int CAMERA_REQUEST_CODE = 102;
     public static final int GALLERY_REQUEST_CODE = 105;
-    String currentPhotoPath, photoPath;
+    String currentPhotoPath, photoPath, userID, AESPassword = "password", decryptedPW;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+    private FirebaseStorage firebaseStorage;
+    private StorageReference storageReference;
+    private User userFromDB, user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,16 +74,42 @@ public class ProfileActivity extends AppCompatActivity {
 
         imageView = findViewById(R.id.image_view);
         btnPhoto = findViewById(R.id.btn_ganti_foto);
+        txtEmail = findViewById(R.id.txtEmail);
+        txtPassword = findViewById(R.id.txtPassword);
         txtNama = findViewById(R.id.txtNama);
         txtAlamat = findViewById(R.id.txtAlamat);
         txtNoTelp = findViewById(R.id.txtNoTelp);
         btn_ganti_profil = findViewById(R.id.btn_ganti_profil);
+        btnResend = findViewById(R.id.btnResend);
 
-        imageView.setImageURI(Uri.parse(photoPath));
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
+        userID = firebaseUser.getUid();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("users");
+        firebaseStorage = FirebaseStorage.getInstance();
+        storageReference = firebaseStorage.getReference();
 
-        txtNama.setText(nama);
-        txtAlamat.setText(alamat);
-        txtNoTelp.setText(noTelp);
+        databaseReference.child(userID).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                txtEmail.setText(dataSnapshot.child("email").getValue().toString());
+                decryptedPW = decryt(AESPassword, dataSnapshot.child("password").getValue().toString());
+                txtPassword.setText(decryptedPW);
+                txtNama.setText(dataSnapshot.child("nama").getValue().toString());
+                txtAlamat.setText(dataSnapshot.child("alamat").getValue().toString());
+                txtNoTelp.setText(dataSnapshot.child("telp").getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        if(photoPath != null) {
+            imageView.setImageURI(Uri.parse(photoPath));
+        }
 
         btnPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,28 +151,6 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(this, "Camera Permission is Required to Use camera.", Toast.LENGTH_SHORT).show();
             }
         }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.optionmenu, menu);
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==R.id.menu_main){
-            startActivity(new Intent(this, MainActivity.class));
-        } else if (item.getItemId() == R.id.menu_profile) {
-            startActivity(new Intent(this, ProfileActivity.class));
-        } else if (item.getItemId() == R.id.menu_map) {
-            startActivity(new Intent(this, MapActivity.class));
-        }
-
-        return true;
     }
 
     private void loadPreferences() {
@@ -225,5 +246,16 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivityForResult(takePictureIntent, CAMERA_REQUEST_CODE);
             }
         }
+    }
+
+    private String decryt(String AESPassword, String encryptedMsg) {
+        String messageAfterDecrypt = null;
+        try {
+            messageAfterDecrypt = AESCrypt.decrypt(AESPassword, encryptedMsg);
+        }catch (GeneralSecurityException e){
+            //handle error - could be due to incorrect password or tampered encryptedMsg
+            e.printStackTrace();
+        }
+        return messageAfterDecrypt;
     }
 }

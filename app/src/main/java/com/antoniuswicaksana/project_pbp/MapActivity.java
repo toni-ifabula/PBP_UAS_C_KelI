@@ -1,11 +1,7 @@
 package com.antoniuswicaksana.project_pbp;
 
-import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -136,28 +132,4 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapView.onSaveInstanceState(outState);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.optionmenu, menu);
-        //getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId()==R.id.menu_main){
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
-        } else if (item.getItemId() == R.id.menu_profile) {
-            startActivity(new Intent(this, ProfileActivity.class));
-            finish();
-        } else if (item.getItemId() == R.id.menu_map) {
-            startActivity(new Intent(this, MapActivity.class));
-            finish();
-        }
-
-        return true;
-    }
 }

@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.antoniuswicaksana.project_pbp.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerViewAdapter adapter;
     private RecyclerView.LayoutManager mLayoutManager;
     ActivityMainBinding binding;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,9 @@ public class MainActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.recyclerViewEvent.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerViewEvent.setHasFixedSize(true);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseUser = firebaseAuth.getCurrentUser();
 
         //get data mahasiswa
         ListEvent = new DaftarEvent().EVENT;
@@ -93,6 +100,12 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, ProfileActivity.class));
         } else if (item.getItemId() == R.id.menu_map) {
             startActivity(new Intent(this, MapActivity.class));
+        } else if (item.getItemId() == R.id.menu_logout) {
+            firebaseAuth.signOut();
+            Intent intent = new Intent(this, LoginActivity.class);// New activity
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish(); // Call once you redirect to another activity
         }
 
         return true;
