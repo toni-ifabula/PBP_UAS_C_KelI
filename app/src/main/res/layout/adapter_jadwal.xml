@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="10dp"
+    app:cardBackgroundColor="#FF6D00"
+    app:cardCornerRadius="5dp"
+    tools:context="adapter.AdapterJadwal">
+
+    <com.antoniuswicaksana.project_pbp.SwipeMenu.EasySwipeMenuLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        app:contentView="@+id/content"
+        app:rightMenuView="@+id/right">
+
+        <LinearLayout
+            android:id="@+id/content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:text="Tanggal : "/>
+
+                <TextView
+                    android:id="@+id/tvTanggal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:text="Waktu : "/>
+
+                <TextView
+                    android:id="@+id/tvWaktu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                    android:text="Keterangan : "/>
+
+                <TextView
+                    android:id="@+id/tvKeterangan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_orange_dark"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/ivEdit"
+                android:layout_width="100dp"
+                android:layout_height="75dp"
+                android:background="#193CFD"
+                android:drawableTop="@drawable/ic_edit"
+                android:drawableTint="#FFFFFF"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:text="Edit"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp" />
+
+            <TextView
+                android:id="@+id/ivHapus"
+                android:layout_width="100dp"
+                android:layout_height="75dp"
+                android:background="@android:color/holo_red_dark"
+                android:drawableTop="@drawable/ic_delete"
+                android:drawableTint="#FFFFFF"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:text="Hapus"
+                android:textColor="#FFFFFF"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </com.antoniuswicaksana.project_pbp.SwipeMenu.EasySwipeMenuLayout>
+
+</com.google.android.material.card.MaterialCardView>

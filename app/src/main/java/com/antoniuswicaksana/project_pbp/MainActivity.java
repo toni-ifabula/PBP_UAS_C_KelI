@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -100,8 +102,13 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, ProfileActivity.class));
         } else if (item.getItemId() == R.id.menu_map) {
             startActivity(new Intent(this, MapActivity.class));
-        } else if (item.getItemId() == R.id.menu_logout) {
-            firebaseAuth.signOut();
+        } else if (item.getItemId() == R.id.menu_jadwal) {
+            Fragment fragment = new JadwalFragment();
+            loadFragment(fragment);
+        }else if (item.getItemId() == R.id.menu_logout) {
+            if(firebaseUser != null) {
+                firebaseAuth.signOut();
+            }
             Intent intent = new Intent(this, LoginActivity.class);// New activity
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -109,5 +116,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    public void loadFragment(Fragment fragment) {
+        // Memulai transaksi
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        // mengganti isi container dengan fragment baru
+        ft.replace(R.id.container_main, fragment);
+        // atau ft.add(R.id.your_placeholder, new FooFragment());
+        // mulai melakukan hal di atas (jika belum di commit maka proses di atas belum dimulai)
+        ft.commit();
     }
 }

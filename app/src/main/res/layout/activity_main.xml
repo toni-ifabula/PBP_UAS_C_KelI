@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/container_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -14,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/adapter_recycler_view"/>
-
-    </LinearLayout>
+    </FrameLayout>
 
 </layout>

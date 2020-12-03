@@ -3,4 +3,12 @@
     <string name="rp">Rp </string>
     <string name="mapbox_access_token">pk.eyJ1IjoidG9uaTYxMiIsImEiOiJja2ZremZpZjIxMHI4MnBtanJydWo5MDlkIn0.zbCKkpFCaRWr-WJ3Tboc5g</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <declare-styleable name="EasySwipeMenuLayout">
+        <attr name="leftMenuView" format="reference" />
+        <attr name="rightMenuView" format="reference" />
+        <attr name="contentView" format="reference" />
+        <attr name="canRightSwipe" format="boolean" />
+        <attr name="canLeftSwipe" format="boolean" />
+        <attr name="fraction" format="float" />
+    </declare-styleable>
 </resources>
