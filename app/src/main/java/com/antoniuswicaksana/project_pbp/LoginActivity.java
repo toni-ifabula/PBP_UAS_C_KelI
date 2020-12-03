@@ -24,7 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText etEmail, etPassword;
-    private String email, password;
+    private int loginSuccess = 0;
+    private String email, password, errorMessage = "";
     private Button btnRegister, btnLogin;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
@@ -98,14 +99,17 @@ public class LoginActivity extends AppCompatActivity {
                 if(task.isSuccessful() && !firebaseAuth.getCurrentUser().isEmailVerified()) {
                     fragment = new VerifyFragment();
                     loadFragment(fragment);
+                    loginSuccess = 1;
                 } else if(task.isSuccessful() && firebaseAuth.getCurrentUser().isEmailVerified()) {
                     Toast.makeText(LoginActivity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     finish();
+                    loginSuccess = 1;
                 } else {
                     Toast.makeText(LoginActivity.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    errorMessage = task.getException().getMessage();
                 }
 
                 progressDialog.dismiss();
@@ -119,4 +123,5 @@ public class LoginActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
 }
