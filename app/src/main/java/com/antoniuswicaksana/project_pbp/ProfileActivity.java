@@ -2,10 +2,13 @@ package com.antoniuswicaksana.project_pbp;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -25,6 +28,10 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.antoniuswicaksana.project_pbp.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,6 +41,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.scottyab.aescrypt.AESCrypt;
 
 import java.io.File;
@@ -62,15 +70,17 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseDatabase firebaseDatabase;
     private DatabaseReference databaseReference;
     private FirebaseStorage firebaseStorage;
-    private StorageReference storageReference;
+    private StorageReference storageReference, pathReferences;
     private User userFromDB, user;
+    private Bitmap bitmap;
+    private Uri uri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        loadPreferences();
+//        loadPreferences();
 
         imageView = findViewById(R.id.image_view);
         btnPhoto = findViewById(R.id.btn_ganti_foto);
@@ -88,8 +98,10 @@ public class ProfileActivity extends AppCompatActivity {
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("users");
         firebaseStorage = FirebaseStorage.getInstance();
-        storageReference = firebaseStorage.getReference();
+        storageReference = firebaseStorage.getReference("images");
+        pathReferences = storageReference.child("userID");
 
+        // READ FROM DATABASE
         databaseReference.child(userID).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -107,9 +119,11 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        if(photoPath != null) {
-            imageView.setImageURI(Uri.parse(photoPath));
-        }
+        setImageView();
+
+//        if(photoPath != null) {
+//            imageView.setImageURI(Uri.parse(photoPath));
+//        }
 
         btnPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,11 +191,19 @@ public class ProfileActivity extends AppCompatActivity {
         if(requestCode == CAMERA_REQUEST_CODE){
             if(resultCode == Activity.RESULT_OK){
                 File f = new File(currentPhotoPath);
-                imageView.setImageURI(Uri.fromFile(f));
+//                imageView.setImageURI(Uri.fromFile(f));
                 Log.d("tag", "Absolute Url of Image is " + Uri.fromFile(f));
 
+                // SAVE TO FIREBASE STORAGE
+//                bitmap = BitmapFactory.decodeFile(currentPhotoPath);
+                uri = Uri.fromFile(f);
+                uploadImage(uri);
+
+                // SET IMAGEVIEW
+                setImageView();
+
                 //save image path with sharedPreferences
-                savePreferences();
+//                savePreferences();
 
                 Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 Uri contentUri = Uri.fromFile(f);
@@ -197,7 +219,7 @@ public class ProfileActivity extends AppCompatActivity {
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
                 String imageFileName = "JPEG_" + timeStamp +"."+getFileExt(contentUri);
                 Log.d("tag", "onActivityResult: Gallery Image Uri:  " +  imageFileName);
-                imageView.setImageURI(contentUri);
+//                imageView.setImageURI(contentUri);
             }
 
         }
@@ -223,6 +245,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Save a file: path for use with ACTION_VIEW intents
         currentPhotoPath = image.getAbsolutePath();
+
         return image;
     }
 
@@ -257,5 +280,47 @@ public class ProfileActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return messageAfterDecrypt;
+    }
+
+    private void uploadImage(Uri uri) {
+        final ProgressDialog progressDialog;
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("loading....");
+        progressDialog.setTitle("Upload in Progress");
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progressDialog.show();
+
+        storageReference.child(userID).putFile(uri)
+                .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                        progressDialog.dismiss();
+                        Toast.makeText(ProfileActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void setImageView() {
+        final long ONE_MEGABYTE = 1024 * 1024 * 10;
+
+        storageReference.child(userID).getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imageView.setImageBitmap(bitmap);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ProfileActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

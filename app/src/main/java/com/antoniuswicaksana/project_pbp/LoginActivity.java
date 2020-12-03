@@ -93,7 +93,10 @@ public class LoginActivity extends AppCompatActivity {
                     loadFragment(fragment);
                 } else if(task.isSuccessful() && firebaseAuth.getCurrentUser().isEmailVerified()) {
                     Toast.makeText(LoginActivity.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                    finish();
                 } else {
                     Toast.makeText(LoginActivity.this, "Error ! " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                 }
