@@ -23,11 +23,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.antoniuswicaksana.project_pbp.JadwalFragment;
+import com.antoniuswicaksana.project_pbp.BookingFragment;
 import com.antoniuswicaksana.project_pbp.R;
-import com.antoniuswicaksana.project_pbp.TambahEdit;
-import com.antoniuswicaksana.project_pbp.api.JadwalApi;
-import com.antoniuswicaksana.project_pbp.model.Jadwal;
+import com.antoniuswicaksana.project_pbp.TambahEditBooking;
+import com.antoniuswicaksana.project_pbp.api.BookingApi;
+import com.antoniuswicaksana.project_pbp.model.Booking;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -38,66 +38,62 @@ import java.util.List;
 
 import static com.android.volley.Request.Method.POST;
 
-public class AdapterJadwal extends RecyclerView.Adapter<AdapterJadwal.adapterJadwalViewHolder>{
+public class AdapterBooking extends RecyclerView.Adapter<AdapterBooking.adapterBookingViewHolder> {
 
-    private List<Jadwal> jadwalList;
+    private List<Booking> bookingList;
     private Context context;
     private View view;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
 
-    public AdapterJadwal(Context context, List<Jadwal> jadwalList) {
+    public AdapterBooking(Context context, List<Booking> bookingList) {
         this.context=context;
-        this.jadwalList = jadwalList;
+        this.bookingList = bookingList;
     }
 
     @NonNull
     @Override
-    public AdapterJadwal.adapterJadwalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public AdapterBooking.adapterBookingViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        view = layoutInflater.inflate(R.layout.adapter_jadwal, parent, false);
+        view = layoutInflater.inflate(R.layout.adapter_booking, parent, false);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
 
-        return new adapterJadwalViewHolder(view);
+        return new AdapterBooking.adapterBookingViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AdapterJadwal.adapterJadwalViewHolder holder, int position) {
-        final Jadwal jadwal = jadwalList.get(position);
+    public void onBindViewHolder(@NonNull AdapterBooking.adapterBookingViewHolder holder, int position) {
+        final Booking booking = bookingList.get(position);
 
-        holder.tanggal.setText(jadwal.getTanggal());
-        holder.waktu.setText(jadwal.getWaktu());
-        holder.keterangan.setText(jadwal.getKeterangan());
+        holder.tvPaket.setText(booking.getPaket());
+        holder.tvAlamat.setText(booking.getAlamat());
+        holder.tvTanggal.setText(booking.getTanggal());
+        holder.tvWaktu.setText(booking.getWaktu());
 
         holder.ivEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (firebaseUser == null){
-                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                    Bundle data = new Bundle();
-                    data.putSerializable("jadwal", jadwal);
-                    data.putString("status", "edit");
-                    TambahEdit tambahEdit = new TambahEdit();
-                    tambahEdit.setArguments(data);
-                    loadFragment(tambahEdit);
-                } else {
-                    Toast.makeText(context, "Hanya admin yang dapat mengganti jadwal", Toast.LENGTH_SHORT).show();
-                }
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                Bundle data = new Bundle();
+                data.putSerializable("booking", booking);
+                data.putString("status", "edit");
+                TambahEditBooking tambahEditBooking = new TambahEditBooking();
+                tambahEditBooking.setArguments(data);
+                loadFragment(tambahEditBooking);
             }
         });
 
         holder.ivHapus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (firebaseUser == null) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage("Anda yakin ingin menghapus jadwal ?");
+                    builder.setMessage("Anda yakin ingin menghapus booking ?");
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            deleteJadwal(jadwal.getId());
+                            deleteBooking(booking.getId());
 
                         }
                     });
@@ -110,52 +106,50 @@ public class AdapterJadwal extends RecyclerView.Adapter<AdapterJadwal.adapterJad
                     });
                     AlertDialog alert = builder.create();
                     alert.show();
-                } else {
-                    Toast.makeText(context, "Hanya admin yang dapat menghapus jadwal", Toast.LENGTH_SHORT).show();
-                }
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return jadwalList.size();
+        return bookingList.size();
+    }
+
+    public class adapterBookingViewHolder extends RecyclerView.ViewHolder {
+        private TextView tvPaket, tvTanggal, tvWaktu, tvAlamat, ivEdit, ivHapus;
+
+        public adapterBookingViewHolder(@NonNull View itemView) {
+            super(itemView);
+            tvPaket         = (TextView) itemView.findViewById(R.id.tvPaket);
+            tvTanggal         = (TextView) itemView.findViewById(R.id.tvTanggal);
+            tvWaktu          = (TextView) itemView.findViewById(R.id.tvWaktu);
+            tvAlamat = (TextView) itemView.findViewById(R.id.tvAlamat);
+            ivEdit          = (TextView) itemView.findViewById(R.id.ivEdit);
+            ivHapus         = (TextView) itemView.findViewById(R.id.ivHapus);
+        }
     }
 
     public void loadFragment(Fragment fragment) {
         AppCompatActivity activity = (AppCompatActivity) view.getContext();
         FragmentManager fragmentManager = activity.getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_jadwal,fragment)
+        fragmentTransaction.replace(R.id.fragment_booking,fragment)
                 .commit();
     }
 
-    public class adapterJadwalViewHolder extends RecyclerView.ViewHolder {
-        private TextView tanggal, waktu, keterangan, ivEdit, ivHapus;
-
-        public adapterJadwalViewHolder(@NonNull View itemView) {
-            super(itemView);
-            tanggal         = (TextView) itemView.findViewById(R.id.tvTanggal);
-            waktu          = (TextView) itemView.findViewById(R.id.tvWaktu);
-            keterangan = (TextView) itemView.findViewById(R.id.tvKeterangan);
-            ivEdit          = (TextView) itemView.findViewById(R.id.ivEdit);
-            ivHapus         = (TextView) itemView.findViewById(R.id.ivHapus);
-        }
-    }
-
     //Fungsi menghapus data mahasiswa
-    public void deleteJadwal(String id){
+    public void deleteBooking(String id){
         RequestQueue queue = Volley.newRequestQueue(context);
 
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Menghapus data jadwal");
+        progressDialog.setTitle("Menghapus data booking");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
         //memulai membuat permintaan request menghapus data ke jaringan
-        StringRequest stringRequest = new StringRequest(POST, JadwalApi.URL_DELETE + id,
+        StringRequest stringRequest = new StringRequest(POST, BookingApi.URL_DELETE + id,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -167,7 +161,7 @@ public class AdapterJadwal extends RecyclerView.Adapter<AdapterJadwal.adapterJad
                             //obj.geetString("message") digunakan untuk mengambil pesan dari response
                             Toast.makeText(context, obj.getString("message"), Toast.LENGTH_SHORT).show();
                             notifyDataSetChanged();
-                            loadFragment(new JadwalFragment());
+                            loadFragment(new BookingFragment());
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

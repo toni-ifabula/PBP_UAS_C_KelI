@@ -35,8 +35,10 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerViewAdapter adapter;
     private RecyclerView.LayoutManager mLayoutManager;
     ActivityMainBinding binding;
+    private String userID;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private Fragment fragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,8 +105,15 @@ public class MainActivity extends AppCompatActivity {
         } else if (item.getItemId() == R.id.menu_map) {
             startActivity(new Intent(this, MapActivity.class));
         } else if (item.getItemId() == R.id.menu_jadwal) {
-            Fragment fragment = new JadwalFragment();
+            fragment = new JadwalFragment();
             loadFragment(fragment);
+        }else if (item.getItemId() == R.id.menu_booking) {
+            if (firebaseUser == null){
+                Toast.makeText(this, "Admin tidak bisa membuat booking", Toast.LENGTH_SHORT).show();
+            } else {
+                fragment = new BookingFragment();
+                loadFragment(fragment);
+            }
         }else if (item.getItemId() == R.id.menu_logout) {
             if(firebaseUser != null) {
                 firebaseAuth.signOut();

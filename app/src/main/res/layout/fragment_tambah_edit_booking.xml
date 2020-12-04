@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tambah_edit_fragment"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/tambah_edit_booking_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="@color/white"
+    tools:context=".TambahEditBooking">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,6 +19,38 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:orientation="vertical">
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFFFFF"
+                android:hint="Paket"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etPaket"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#FFFFFF"
+                android:hint="Alamat"
+                app:errorEnabled="true">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etAlamat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -51,21 +84,6 @@
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#FFFFFF"
-                android:hint="Keterangan">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etKeterangan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    tools:ignore="LabelFor" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
         </LinearLayout>
 
         <LinearLayout
@@ -84,7 +102,7 @@
                 android:paddingRight="10dp"
                 android:text="Batal"
                 android:textColor="@color/black"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <Button
                 android:id="@+id/btnSimpan"
@@ -96,7 +114,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="Simpan"
-                android:textColor="@color/black"
+                android:textColor="#FFFFFF"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>

@@ -20,9 +20,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.antoniuswicaksana.project_pbp.adapter.AdapterJadwal;
-import com.antoniuswicaksana.project_pbp.api.JadwalApi;
-import com.antoniuswicaksana.project_pbp.model.Jadwal;
+import com.antoniuswicaksana.project_pbp.adapter.AdapterBooking;
+import com.antoniuswicaksana.project_pbp.api.BookingApi;
+import com.antoniuswicaksana.project_pbp.model.Booking;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -35,53 +35,50 @@ import java.util.List;
 
 import static com.android.volley.Request.Method.GET;
 
-public class JadwalFragment extends Fragment {
+public class BookingFragment extends Fragment {
 
     private RecyclerView recyclerView;
-    private AdapterJadwal adapter;
+    private AdapterBooking adapter;
     private Button btnTambah;
-    private List<Jadwal> listJadwal;
+    private List<Booking> listBooking;
     private View view;
     private FirebaseAuth firebaseAuth;
     private FirebaseUser firebaseUser;
+    private String userID;
 
-    public JadwalFragment() {
+    public BookingFragment() {
         // Required empty public constructor
     }
 
 //    @Override
 //    public void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
-//
 //    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_jadwal, container, false);
+        view =  inflater.inflate(R.layout.fragment_booking, container, false);
 
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseUser = firebaseAuth.getCurrentUser();
+        userID = firebaseUser.getUid();
 
         btnTambah = view.findViewById(R.id.btnTambah);
 
         setAdapter();
-        getJadwal();
+        getBooking();
 
         btnTambah.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (firebaseUser == null) {
-                    Bundle data = new Bundle();
-                    data.putString("status", "tambah");
-                    TambahEdit tambahEdit = new TambahEdit();
-                    tambahEdit.setArguments(data);
+                Bundle data = new Bundle();
+                data.putString("status", "tambah");
+                TambahEditBooking tambahEditBooking = new TambahEditBooking();
+                tambahEditBooking.setArguments(data);
 
-                    loadFragment(tambahEdit);
-                } else {
-                    Toast.makeText(getContext(), "Hanya admin yang dapat menambah jadwal", Toast.LENGTH_SHORT).show();
-                }
+                loadFragment(tambahEditBooking);
             }
         });
 
@@ -89,10 +86,10 @@ public class JadwalFragment extends Fragment {
     }
 
     public void setAdapter(){
-        getActivity().setTitle("Data Jadwal");
-        listJadwal = new ArrayList<Jadwal>();
+        getActivity().setTitle("Data Booking");
+        listBooking = new ArrayList<Booking>();
         recyclerView = view.findViewById(R.id.recycler_view);
-        adapter = new AdapterJadwal(view.getContext(), listJadwal);
+        adapter = new AdapterBooking(view.getContext(), listBooking);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -102,11 +99,11 @@ public class JadwalFragment extends Fragment {
     public void loadFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_jadwal,fragment)
+        fragmentTransaction.replace(R.id.fragment_booking,fragment)
                 .commit();
     }
 
-    public void getJadwal() {
+    public void getBooking() {
         //deklarasi queue
         RequestQueue queue = Volley.newRequestQueue(view.getContext());
 
@@ -115,11 +112,11 @@ public class JadwalFragment extends Fragment {
         final ProgressDialog progressDialog;
         progressDialog = new ProgressDialog(view.getContext());
         progressDialog.setMessage("loading....");
-        progressDialog.setTitle("Menampilkan data jadwal");
+        progressDialog.setTitle("Menampilkan data booking");
         progressDialog.setProgressStyle(android.app.ProgressDialog.STYLE_SPINNER);
         progressDialog.show();
 
-        final JsonObjectRequest stringRequest = new JsonObjectRequest(GET, JadwalApi.URL_SELECT,
+        final JsonObjectRequest stringRequest = new JsonObjectRequest(GET, BookingApi.URL_SELECT,
                 null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -129,24 +126,29 @@ public class JadwalFragment extends Fragment {
                     //mengambil data response json object yang berupa data mahasiswa
                     JSONArray jsonArray = response.getJSONArray("data");
 
-                    if (!listJadwal.isEmpty())
-                        listJadwal.clear();
+                    if (!listBooking.isEmpty())
+                        listBooking.clear();
 
                     for (int i = 0; i < jsonArray.length(); i++) {
                         //mengubah data jsonArray tertentu menjadi object
                         JSONObject jsonObject = (JSONObject) jsonArray.get(i);
 
-                        String id           = jsonObject.optString("id");
-                        String tanggal       = jsonObject.optString("tanggal");
-                        String waktu          = jsonObject.optString("waktu");
-                        String keterangan    = jsonObject.optString("keterangan");
+                        String clientID     = jsonObject.optString("clientID");
 
-                        //membuat objek user
-                        Jadwal jadwal =
-                                new Jadwal(id, tanggal, waktu, keterangan);
+                        if (userID.equals(clientID)) {
+                            String id           = jsonObject.optString("id");
+                            String paket        = jsonObject.optString("paket");
+                            String alamat    = jsonObject.optString("alamat");
+                            String tanggal       = jsonObject.optString("tanggal");
+                            String waktu          = jsonObject.optString("waktu");
 
-                        //menambahkan obejk user tadi ke list user
-                        listJadwal.add(jadwal);
+                            //membuat objek user
+                            Booking booking =
+                                    new Booking(id, clientID, paket, alamat, tanggal, waktu);
+
+                            //menambahkan obejk user tadi ke list user
+                            listBooking.add(booking);
+                        }
                     }
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {

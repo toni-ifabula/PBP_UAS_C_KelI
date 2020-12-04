@@ -129,17 +129,17 @@ public class LoginTest {
 
         onView(isRoot()).perform(waitFor(500));
 
-        ViewInteraction textInputEditText6 = onView(
-                allOf(withId(R.id.etEmail),
-                        childAtPosition(
-                                childAtPosition(
-                                        withClassName(is("com.google.android.material.textfield.TextInputLayout")),
-                                        0),
-                                0),
-                        isDisplayed()));
-        textInputEditText6.perform(click());
-
-        onView(isRoot()).perform(waitFor(500));
+//        ViewInteraction textInputEditText6 = onView(
+//                allOf(withId(R.id.etEmail),
+//                        childAtPosition(
+//                                childAtPosition(
+//                                        withClassName(is("com.google.android.material.textfield.TextInputLayout")),
+//                                        0),
+//                                0),
+//                        isDisplayed()));
+//        textInputEditText6.perform(click());
+//
+//        onView(isRoot()).perform(waitFor(500));
 
         ViewInteraction textInputEditText7 = onView(
                 allOf(withId(R.id.etEmail),
