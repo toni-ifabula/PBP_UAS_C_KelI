@@ -58,12 +58,16 @@ public class TambahEdit extends Fragment {
         btnSimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(etTanggal.getText().toString().equals("") || etWaktu.getText().toString().equals("") ||
-                    etKeterangan.getText().toString().equals("")) {
-                    Toast.makeText(getContext(), "DATA TIDAK BOLEH KOSONG", Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
+                if (etTanggal.getText().toString().equals("")) {
+                    etTanggal.setError("Isikan dengan benar");
+                    etTanggal.requestFocus();
+                } else if(etWaktu.getText().toString().equals("")) {
+                    etWaktu.setError("Isikan dengan benar");
+                    etWaktu.requestFocus();
+                } else if (etKeterangan.getText().toString().equals("")) {
+                    etKeterangan.setError("Isikan dengan benar");
+                    etKeterangan.requestFocus();
+                } else {
                     tanggal      = etTanggal.getText().toString().trim();
                     waktu     = etWaktu.getText().toString().trim();
                     keterangan = etKeterangan.getText().toString().trim();

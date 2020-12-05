@@ -107,14 +107,14 @@
             <Button
                 android:id="@+id/btnSimpan"
                 android:layout_width="150dp"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginTop="60dp"
-                android:background="#1E88E5"
+                android:backgroundTint="@color/blue"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="Simpan"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>

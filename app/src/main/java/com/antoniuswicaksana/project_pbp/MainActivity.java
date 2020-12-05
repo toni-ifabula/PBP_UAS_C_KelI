@@ -101,7 +101,11 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId()==R.id.menu_main){
             startActivity(new Intent(this, MainActivity.class));
         } else if (item.getItemId() == R.id.menu_profile) {
-            startActivity(new Intent(this, ProfileActivity.class));
+            if (firebaseUser == null){
+                Toast.makeText(this, "Admin tidak mempunyai profile", Toast.LENGTH_SHORT).show();
+            } else {
+                startActivity(new Intent(this, ProfileActivity.class));
+            }
         } else if (item.getItemId() == R.id.menu_map) {
             startActivity(new Intent(this, MapActivity.class));
         } else if (item.getItemId() == R.id.menu_jadwal) {
